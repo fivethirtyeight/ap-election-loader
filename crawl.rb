@@ -13,7 +13,7 @@ $env = ENV['RAILS_ENV'] || "development"
 STATES = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"]
 
 $params = Trollop::options do
-  opt :states, "Specify comma-separated states to download", :default => 'MA'
+  opt :states, "Specify comma-separated states to download", :type => :string, :default => nil
   opt :skipstates, "Specify comma-separated states not to download", :default => ''
   opt :interval, "Specify interval (in seconds) at which AP data will be downloaded", :type => :int, :default => nil
   opt :once, "Only download and import data once", :default => false
@@ -27,6 +27,7 @@ $params = Trollop::options do
 end
 
 $params[:interval] = @ap_config['interval'] if $params[:interval].nil?
+$params[:states] = @ap_config['states'] if $params[:states].nil?
 if $params[:skipstates].size > 0
   $params[:states] = STATES - $params[:skipstates].split(",")
 else
