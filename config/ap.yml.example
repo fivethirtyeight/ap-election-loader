@@ -2,3 +2,4 @@ host: electionsonline.ap.org
 user:
 pass:
 interval: 300
+states: MA
