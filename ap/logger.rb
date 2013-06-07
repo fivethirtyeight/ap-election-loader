@@ -1,3 +1,5 @@
+STDOUT.sync = true
+
 module AP
   class Logger
     def log(str)
