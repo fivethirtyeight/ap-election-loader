@@ -1,0 +1,20 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    aws-s3 (0.6.3)
+      builder
+      mime-types
+      xml-simple
+    builder (3.0.4)
+    mime-types (1.21)
+    mysql2 (0.3.11)
+    trollop (2.0)
+    xml-simple (1.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  aws-s3 (= 0.6.3)
+  mysql2 (= 0.3.11)
+  trollop (= 2.0)

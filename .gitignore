@@ -1,0 +1,4 @@
+config/ap.yml
+config/database.yml
+config/s3.yml
+data/*
