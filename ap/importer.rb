@@ -3,28 +3,29 @@ require 'yaml'
 require 'digest/md5'
 
 module AP
-  class Import
+  class Importer
 
-    def initialize
-      @db_config = YAML::load(File.open("#{$dir}/config/database.yml"))[$env]
+    def initialize(crawler)
+      @crawler = crawler
+      @db_config = YAML::load(File.open("#{@crawler.dir}/config/database.yml"))[@crawler.env]
       connect
-      set_poll_closings if $params[:replay]
+      set_poll_closings if @crawler.params[:replay]
     end
 
     def import_all
 
-      if $params[:import]
-        $l.log "Started importing"
-        $l.log "New data in #{$new_files.map{|file| file.first.split('/').last}.join(', ')}" if $new_files.size > 0
+      if @crawler.params[:import]
+        @crawler.logger.log "Started importing"
+        @crawler.logger.log "New data in #{@crawler.new_files.map{|file| file.first.split('/').last}.join(', ')}" if @crawler.new_files.size > 0
 
-        test_flag_where = "test_flag #{['internal', 'production'].include?($env) ? "= 'l'" : "in ('l', 't')"}"
+        test_flag_where = "test_flag #{['internal', 'production'].include?(@crawler.env) ? "= 'l'" : "in ('l', 't')"}"
 
-        $updated_states.each do |state_abbr|
-          $l.log "Importing #{state_abbr}"
+        @crawler.updated_states.each do |state_abbr|
+          @crawler.logger.log "Importing #{state_abbr}"
 
-          import_state(state_abbr, $new_files.select{|file| file.first.index("#{state_abbr}_")}.first.first)
+          import_state(state_abbr, @crawler.new_files.select{|file| file.first.index("#{state_abbr}_")}.first.first)
 
-          if $params[:initialize]
+          if @crawler.params[:initialize]
 
             election_date = q("select election_date from stage_ap_races limit 1").first["election_date"].strftime("%Y-%m-%d")
             q "start transaction"
@@ -79,12 +80,12 @@ module AP
       end
 
       # Wait to cache new files until they're fully merged so the crawler can be killed between downloading and importing
-      $new_files.each do |file, tm, md5|
+      @crawler.new_files.each do |file, tm, md5|
         File.open("#{file}.mtime", 'w') {|f| f.write(tm)}
         File.open("#{file}.md5", 'w') {|f| f.write(md5)}
       end
 
-      $l.log "Finished importing" if $params[:import]
+      @crawler.logger.log "Finished importing" if @crawler.params[:import]
     end
 
     private
@@ -93,19 +94,19 @@ module AP
       state_path = first_file.split('/')[0, first_file.split('/').size - 1].join('/')
 
       files = [["_Race.txt", "ap_races"], ["_Results.txt", "ap_results"]]
-      files += [["_Candidate.txt", "ap_candidates"]] if $params[:initialize]
-      files += [["_Race_D.txt", "ap_district_races"], ["_Results_D.txt", "ap_district_results"]] if $params[:delegates]
+      files += [["_Candidate.txt", "ap_candidates"]] if @crawler.params[:initialize]
+      files += [["_Race_D.txt", "ap_district_races"], ["_Results_D.txt", "ap_district_results"]] if @crawler.params[:delegates]
 
       files.each do |f|
         q("truncate stage_#{f.last}")
         next unless File.exists? "#{state_path}/#{state_abbr}#{f.first}"
-        load_data_str = ($env == 'development') ? "load data infile" : "load data local infile"
+        load_data_str = (@crawler.env == 'development') ? "load data infile" : "load data local infile"
         q("#{load_data_str} '#{state_path}/#{state_abbr}#{f.first}' into table stage_#{f.last} fields terminated by ';'")
       end
     end
 
     def set_poll_closings
-      $params[:states].each do |abbr|
+      @crawler.params[:states].each do |abbr|
         q "update states set polls_close_at = now() + interval 4 hour + interval #{rand(300)} second where abbr = '#{abbr}'"
       end
     end
