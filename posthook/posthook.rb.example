@@ -1,0 +1,13 @@
+module AP
+  class Posthook
+
+    def initialize(crawler)
+      @crawler = crawler
+    end
+
+    def run
+      @crawler.logger.log "Running posthook for #{@crawler.updated_states.join(', ')}"
+    end
+
+  end
+end

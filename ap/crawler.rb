@@ -32,6 +32,7 @@ module AP
       @importer = AP::Importer.new(self)
       @replayer = AP::Replayer.new(self)
       @replayer.init if @params[:replay]
+      @posthook = AP::Posthook.new(self) if defined?(AP::Posthook)
     end
 
     def crawl
@@ -44,8 +45,11 @@ module AP
 
           # Everything happens here
           @params[:replay] ? @replayer.replay : @downloader.download
-          @importer.import if @new_files.size > 0
-          @replayer.record if @new_files.size > 0 && @params[:record]
+          if @new_files.size > 0
+            @importer.import
+            @replayer.record if @params[:record]
+            @posthook.run unless @posthook.nil?
+          end
 
           # Sleep for a bit after the first round of a replay so you can ctrl-Z and do whatever
           if @params[:initialize] && @params[:replay]
