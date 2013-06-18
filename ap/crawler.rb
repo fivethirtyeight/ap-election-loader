@@ -42,9 +42,9 @@ module AP
           @updated_states = []
 
           # Everything happens here
-          @params[:replay] ? @replayer.replay_all : @downloader.download_all
-          @importer.import_all if @new_files.size > 0
-          @replayer.record_all if @new_files.size > 0 && @params[:record]
+          @params[:replay] ? @replayer.replay : @downloader.download
+          @importer.import if @new_files.size > 0
+          @replayer.record if @new_files.size > 0 && @params[:record]
 
           # Sleep for a bit after the first round of a replay so you can ctrl-Z and do whatever
           if @params[:initialize] && @params[:replay]

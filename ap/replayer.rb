@@ -34,7 +34,7 @@ module AP
       @timekey_idx = 0
     end
 
-    def replay_all
+    def replay
       #connect
       #bucket = AWS::S3::Bucket.find(@s3_config['bucket'])
 
@@ -67,7 +67,7 @@ module AP
       @crawler.logger.log "Finished replaying"
     end
 
-    def record_all
+    def record
       @crawler.logger.log "Started recording"
       dt1 = Time.now.strftime('%Y%m%d')
       dt2 = Time.now.strftime('%H%M%S')

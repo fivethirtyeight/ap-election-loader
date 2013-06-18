@@ -10,7 +10,7 @@ module AP
       @crawler = crawler
     end
 
-    def download_all
+    def download
       @crawler.logger.log "Started downloading"
       connect
       @crawler.params[:states].each{|state| download_state(state)}
