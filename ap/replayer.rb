@@ -12,6 +12,11 @@ module AP
     end
 
     def init
+      if ['production', 'internal'].include?(@crawler.env)
+        @crawler.logger.err "Can't run replays in production environment"
+        exit
+      end
+
       connect
       bucket = AWS::S3::Bucket.find(@s3_config['bucket'])
       data_dir = "#{@crawler.dir}/data/"

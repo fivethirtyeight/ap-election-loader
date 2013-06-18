@@ -68,7 +68,7 @@ module AP
           end
         rescue Exception, Timeout::Error => e
           if !e.to_s.include?("The system cannot find the file")
-            @crawler.logger.log "FTP ERR for #{ftp_dir}/#{file}: #{e.to_s}"
+            @crawler.logger.err "FTP ERR for #{ftp_dir}/#{file}: #{e.to_s}"
             FileUtils.rm_f("#{local_dir}/#{file}")
             disconnect
             connect

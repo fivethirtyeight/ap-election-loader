@@ -41,8 +41,7 @@ module AP
           @new_files = []
           @updated_states = []
 
-          @downloader.download_all unless @params[:replay]
-          @replayer.replay_all if @params[:replay]
+          @params[:replay] ? @replayer.replay_all : @downloader.download_all
           @importer.import_all if @new_files.size > 0
           @replayer.record_all if @new_files.size > 0 && @params[:record]
 
@@ -53,7 +52,7 @@ module AP
           @params[:initialize] = false if @params[:record] || @params[:replay]
         rescue Exception => e
           import.connect if e.to_s.include?('MySQL server has gone away')
-          @logger.log "ERROR: #{e.to_s}"
+          @logger.err e.to_s
         end
 
         break if @params[:once] || (@params[:replay] && @replayer.done)
