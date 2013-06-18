@@ -58,8 +58,7 @@ module AP
         break if @params[:once] || (@params[:replay] && @replayer.done)
 
         s = @params[:interval] - (Time.now.to_i - tm_start)
-        s = 0 if s < 0
-        sleep s
+        sleep(s < 0 ? 0 : s)
       end
     end
 
