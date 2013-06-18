@@ -41,15 +41,20 @@ module AP
           @new_files = []
           @updated_states = []
 
+          # Everything happens here
           @params[:replay] ? @replayer.replay_all : @downloader.download_all
           @importer.import_all if @new_files.size > 0
           @replayer.record_all if @new_files.size > 0 && @params[:record]
 
+          # Sleep for a bit after the first round of a replay so you can ctrl-Z and do whatever
           if @params[:initialize] && @params[:replay]
             @logger.log "Sleeping at zeroes *************"
             sleep 5
           end
+
           @params[:initialize] = false if @params[:record] || @params[:replay]
+
+        # Reconnect to mysql if connection dropped, otherwise, log any errors and continue
         rescue Exception => e
           @importer.connect if e.to_s.include?('MySQL server has gone away')
           @logger.err e.to_s
@@ -57,6 +62,7 @@ module AP
 
         break if @params[:once] || (@params[:replay] && @replayer.done)
 
+        # Sleep for remaining time
         s = @params[:interval] - (Time.now.to_i - tm_start)
         sleep(s < 0 ? 0 : s)
       end
