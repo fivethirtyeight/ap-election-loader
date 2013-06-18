@@ -51,7 +51,7 @@ module AP
           end
           @params[:initialize] = false if @params[:record] || @params[:replay]
         rescue Exception => e
-          import.connect if e.to_s.include?('MySQL server has gone away')
+          @importer.connect if e.to_s.include?('MySQL server has gone away')
           @logger.err e.to_s
         end
 
