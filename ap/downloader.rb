@@ -32,7 +32,7 @@ module AP
 
     def download_state(state)
       ftp_dir = "/#{state}/dbready"
-      local_dir = "#{@crawler.dir}/data/#{state}"
+      local_dir = "#{@crawler.datadir}/#{state}"
       FileUtils.makedirs(local_dir) unless File.exists?(local_dir)
 
       # Downloaded files depend on parameters

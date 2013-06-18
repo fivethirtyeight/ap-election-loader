@@ -2,10 +2,11 @@ module AP
   class Crawler
 
     STATES = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"]
-    attr_accessor :dir, :params, :env, :ap_config, :logger, :downloader, :importer, :replayer, :new_files, :updated_states
+    attr_accessor :dir, :datadir, :params, :env, :ap_config, :logger, :downloader, :importer, :replayer, :new_files, :updated_states
 
     def initialize(dir, params)
       @dir = dir
+      @datadir = "#{@dir}/data"
       @params = params
       @env = ENV['RAILS_ENV'] || "development"
       @ap_config = YAML::load(File.open("#{@dir}/config/ap.yml"))

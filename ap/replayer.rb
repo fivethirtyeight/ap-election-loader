@@ -1,4 +1,5 @@
 require 'aws/s3'
+require 'yaml'
 
 module AP
   class Replayer
@@ -19,36 +20,30 @@ module AP
 
       connect
       bucket = AWS::S3::Bucket.find(@s3_config['bucket'])
-      data_dir = "#{@crawler.dir}/data/"
+      @crawler.params[:replaydate] = bucket.objects(:prefix => "#{@s3_config['dir']}/").map{|o| o.key.split('/')[1, 1].first}.uniq.sort.last.split('.').first unless @crawler.params[:replaydate]
 
-      @crawler.params[:replaydate] = bucket.objects(:prefix => "ap/").map{|o| o.key.split('/')[1, 1].first}.uniq.sort.last.split('.').first unless @crawler.params[:replaydate]
-      local_gzip = "#{data_dir}#{@crawler.params[:replaydate]}.tar.gz"
+      local_gzip = "#{@crawler.datadir}/#{@crawler.params[:replaydate]}.tar.gz"
       unless File.exist?(local_gzip)
         puts "Downloading replay from #{@crawler.params[:replaydate]}..."
-        s3_object = bucket.objects(:prefix => "ap/#{@crawler.params[:replaydate]}.tar.gz").first
+        s3_object = bucket.objects(:prefix => "#{@s3_config['dir']}/#{@crawler.params[:replaydate]}.tar.gz").first
         File.open(local_gzip, 'w') {|f| f.write(s3_object.value)}
-        system "tar -zxvf #{local_gzip} -C #{data_dir}"
+        system "tar -zxvf #{local_gzip} -C #{@crawler.datadir}/"
       end
 
-      @timekeys = Dir.glob("#{data_dir}#{@crawler.params[:replaydate]}/*").map{|d| d.split('/').last}.uniq.sort
+      @timekeys = Dir.glob("#{@crawler.datadir}/#{@crawler.params[:replaydate]}/*").map{|d| d.split('/').last}.uniq.sort
       @timekey_idx = 0
     end
 
     def replay
-      #connect
-      #bucket = AWS::S3::Bucket.find(@s3_config['bucket'])
-
       timekey = @timekeys[@timekey_idx]
       @crawler.logger.log "Started replaying #{timekey}"
 
-      archive_dir = "#{@crawler.dir}/data/#{@crawler.params[:replaydate]}/#{timekey}"
+      archive_dir = "#{@crawler.datadir}/#{@crawler.params[:replaydate]}/#{timekey}"
       new_states = Dir.glob("#{archive_dir}/*").map{|d| d.split('/').last}.uniq
-      if @crawler.params[:states]
-        new_states = new_states & @crawler.params[:states]
-      end
+      new_states = new_states & @crawler.params[:states] if @crawler.params[:states]
 
       new_states.each do |state_abbr|
-        state_dir = "#{@crawler.dir}/../../tmp/ap/#{state_abbr}"
+        state_dir = "#{@crawler.datadir}/#{state_abbr}"
         system "mkdir -p #{state_dir}"
         state_archive_dir = "#{archive_dir}/#{state_abbr}"
         files = ["#{state_abbr}_Results.txt", "#{state_abbr}_Race.txt", "#{state_abbr}_Candidate.txt"]
@@ -81,13 +76,11 @@ module AP
 
     def record_state(state_abbr, files, dt1, dt2)
       connect
-      archive_dir = "#{@crawler.dir}/data/#{dt1}/#{dt2}/#{state_abbr}/"
+      archive_dir = "#{@crawler.datadir}/#{dt1}/#{dt2}/#{state_abbr}/"
       system "mkdir -p #{archive_dir}"
       files.each do |file|
         archive_file = "#{archive_dir}#{file.first.split('/').last}"
         system "cp #{file.first} #{archive_file}"
-        s3_file = "ap/#{dt1}/#{dt2}/#{state_abbr}/#{file.first.split('/').last}"
-        AWS::S3::S3Object.store(s3_file, open(file.first), @s3_config['bucket'], :content_type => MIME::Types.type_for(file.first).join(', '), :access => :private)
       end
     end
 
