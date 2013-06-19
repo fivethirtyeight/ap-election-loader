@@ -94,7 +94,8 @@ module AP
 
       q <<-eos
         delete ap_races from ap_races
-        where ap_races.state_postal = '#{state_abbr}' and ap_races.election_date = '#{election_date}'
+        where ap_races.state_postal = '#{state_abbr}' and
+          ap_races.election_date = '#{election_date}'
       eos
 
       q <<-eos
@@ -109,6 +110,8 @@ module AP
 
     # Update records in production table based on staging table
     def merge_state(state_abbr)
+      q "start transaction"
+
       q <<-eos
         update ap_races
           inner join stage_ap_races on ap_races.id = concat(date_format(stage_ap_races.election_date, '%y%m'), stage_ap_races.race_county_id)
@@ -149,6 +152,8 @@ module AP
           ap_results.natl_order = stage_ap_results.natl_order
         where stage_ap_results.#{@test_flag_where};
       eos
+
+      q "commit"
     end
 
     def connect
