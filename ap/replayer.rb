@@ -8,7 +8,6 @@ module AP
 
     def initialize(crawler)
       @crawler = crawler
-      @s3_config = YAML.load_file("#{@crawler.dir}/config/s3.yml")
       @done = false
     end
 
@@ -18,6 +17,7 @@ module AP
         exit
       end
 
+      @s3_config = YAML.load_file("#{@crawler.dir}/config/s3.yml")
       connect
       bucket = AWS::S3::Bucket.find(@s3_config['bucket'])
       @crawler.params[:replaydate] = bucket.objects(:prefix => "#{@s3_config['dir']}/").map{|o| o.key.split('/')[1, 1].first}.uniq.sort.last.split('.').first unless @crawler.params[:replaydate]
