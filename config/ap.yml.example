@@ -1,5 +1,6 @@
 host: electionsonline.ap.org
 user:
 pass:
+environment: development
 interval: 300
 states: MA

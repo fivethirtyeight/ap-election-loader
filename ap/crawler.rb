@@ -8,8 +8,8 @@ module AP
       @dir = dir
       @datadir = "#{@dir}/data"
       @params = params
-      @env = ENV['RAILS_ENV'] || "development"
       @ap_config = YAML::load(File.open("#{@dir}/config/ap.yml"))
+      @env = @ap_config['environment'] && @ap_config['environment'].size > 0 ? @ap_config['environment'] : "development"
 
       # Set some defaults from config file
       @params[:interval] = @ap_config['interval'] if @params[:interval].nil?
