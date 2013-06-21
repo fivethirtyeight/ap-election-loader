@@ -39,7 +39,6 @@ module AP
       # Downloaded files depend on parameters
       files = ["#{state}_Results.txt", "#{state}_Race.txt"]
       files += ["#{state}_Candidate.txt"] if @crawler.params[:initialize]
-      files += ["#{state}_Results_D.txt", "#{state}_Race_D.txt"] if @crawler.params[:delegates]
 
       download_files(files, ftp_dir, local_dir, state)
     end

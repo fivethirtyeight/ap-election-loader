@@ -18,18 +18,14 @@ module AP
     end
 
     def import
+      @crawler.logger.log "Started importing"
+      @crawler.logger.log "New data in #{@crawler.new_files.map{|file| file.first.split('/').last}.join(', ')}" if @crawler.new_files.size > 0
 
-      if @crawler.params[:import]
-        @crawler.logger.log "Started importing"
-        @crawler.logger.log "New data in #{@crawler.new_files.map{|file| file.first.split('/').last}.join(', ')}" if @crawler.new_files.size > 0
-
-        @crawler.updated_states.each do |state_abbr|
-          @crawler.logger.log "Importing #{state_abbr}"
-
-          stage_state(state_abbr)
-          initialize_state(state_abbr) if @crawler.params[:initialize]
-          merge_state(state_abbr)
-        end
+      @crawler.updated_states.each do |state_abbr|
+        @crawler.logger.log "Importing #{state_abbr}"
+        stage_state(state_abbr)
+        initialize_state(state_abbr) if @crawler.params[:initialize]
+        merge_state(state_abbr)
       end
 
       # Wait to cache new files until they're fully merged so the crawler can be killed between downloading and importing
@@ -38,7 +34,7 @@ module AP
         File.open("#{file}.md5", 'w') {|f| f.write(md5)}
       end
 
-      @crawler.logger.log "Finished importing" if @crawler.params[:import]
+      @crawler.logger.log "Finished importing"
     end
 
   private
@@ -50,7 +46,6 @@ module AP
 
       files = [["_Race.txt", "ap_races"], ["_Results.txt", "ap_results"]]
       files += [["_Candidate.txt", "ap_candidates"]] if @crawler.params[:initialize]
-      files += [["_Race_D.txt", "ap_district_races"], ["_Results_D.txt", "ap_district_results"]] if @crawler.params[:delegates]
 
       files.each do |f|
         q "truncate stage_#{f.last}"
