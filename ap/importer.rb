@@ -12,6 +12,9 @@ module AP
 
       # Add a test_flag filter based on the environment -- important
       @test_flag_where = "test_flag #{['production', 'internal'].include?(@crawler.env) ? "= 'l'" : "in ('l', 't')"}"
+
+      # Create tables if they don't exist when initializing
+      create_tables if @crawler.params[:initialize]
     end
 
     def import
@@ -154,6 +157,10 @@ module AP
       eos
 
       q "commit"
+    end
+
+    def create_tables
+      system  "mysql -h #{@db_config["host"]} -u #{@db_config["username"]} --password=#{@db_config["password"]} #{@db_config["database"]} < #{@crawler.dir}/ap/create.sql"
     end
 
     def connect
