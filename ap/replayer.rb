@@ -20,12 +20,12 @@ module AP
       @s3_config = YAML.load_file("#{@crawler.dir}/config/s3.yml")
       connect
       bucket = AWS::S3::Bucket.find(@s3_config['bucket'])
-      @crawler.params[:replaydate] = bucket.objects(:prefix => "#{@s3_config['dir']}/").map{|o| o.key.split('/')[1, 1].first}.uniq.sort.last.split('.').first unless @crawler.params[:replaydate]
+      @crawler.params[:replaydate] = bucket.objects(:prefix => "#{@s3_config['directory']}/").map{|o| o.key.split('/')[1, 1].first}.uniq.sort.last.split('.').first unless @crawler.params[:replaydate]
 
       local_gzip = "#{@crawler.datadir}/#{@crawler.params[:replaydate]}.tar.gz"
       unless File.exist?(local_gzip)
         puts "Downloading replay from #{@crawler.params[:replaydate]}..."
-        s3_object = bucket.objects(:prefix => "#{@s3_config['dir']}/#{@crawler.params[:replaydate]}.tar.gz").first
+        s3_object = bucket.objects(:prefix => "#{@s3_config['directory']}/#{@crawler.params[:replaydate]}.tar.gz").first
         File.open(local_gzip, 'w') {|f| f.write(s3_object.value)}
         system "tar -zxvf #{local_gzip} -C #{@crawler.datadir}/"
       end
