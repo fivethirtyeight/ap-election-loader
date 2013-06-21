@@ -33,6 +33,7 @@ module AP
     def download_state(state)
       ftp_dir = "/#{state}/dbready"
       local_dir = "#{@crawler.datadir}/#{state}"
+      FileUtils.remove_dir("#{local_dir}") if @crawler.params[:clean]
       FileUtils.makedirs(local_dir) unless File.exists?(local_dir)
 
       # Downloaded files depend on parameters

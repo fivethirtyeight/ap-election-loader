@@ -11,6 +11,7 @@ params = Trollop::options do
   opt :once, "Only download and import data once", :default => false
   opt :import, "Import AP data", :default => true
   opt :delegates, "Import AP delegates (_D files)", :default => false
+  opt :clean, "Clean the data directory for these states before downloading", :default => false
   opt :initialize, "Create initial set of results records", :default => false
   opt :finalize, "Publish files without ajax updates", :default => false
   opt :record, "Record this run", :default => false

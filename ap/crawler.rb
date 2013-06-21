@@ -57,14 +57,14 @@ module AP
             sleep 5
           end
 
-          @params[:initialize] = false if @params[:record] || @params[:replay]
-
         # Reconnect to mysql if connection dropped, otherwise, log any errors and continue
         rescue Exception => e
           @importer.connect if e.to_s.include?('MySQL server has gone away')
           @logger.err e.to_s
         end
 
+        @params[:clean] = false
+        @params[:initialize] = false if @params[:record] || @params[:replay]
         break if @params[:once] || (@params[:replay] && @replayer.done)
 
         # Sleep for remaining time
