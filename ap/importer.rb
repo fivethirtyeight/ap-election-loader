@@ -55,8 +55,12 @@ module AP
       files.each do |f|
         q "truncate stage_#{f.last}"
         next unless File.exists? "#{state_path}/#{state_abbr}#{f.first}"
-        load_data_str = @crawler.env == 'development' ? "load data infile" : "load data local infile"
-        q "#{load_data_str} '#{state_path}/#{state_abbr}#{f.first}' into table stage_#{f.last} fields terminated by ';'"
+        load_data = "'#{state_path}/#{state_abbr}#{f.first}' into table stage_#{f.last} fields terminated by ';'"
+        begin
+          q "load data local infile #{load_data}"
+        rescue Exception
+          q "load data infile #{load_data}"
+        end
       end
     end
 
