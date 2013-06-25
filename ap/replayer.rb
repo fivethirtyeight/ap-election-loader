@@ -9,6 +9,7 @@ module AP
     def initialize(crawler)
       @crawler = crawler
       @done = false
+      @timekey_idx = 0
       if ['production', 'internal'].include?(@crawler.env)
         raise AbortException, "Can't run replays in production environment"
       end
@@ -24,8 +25,7 @@ module AP
         raise AbortException, "A replay for #{@crawler.params[:replaydate]} was not found"
       end
 
-      @timekeys = Dir.glob("#{@crawler.datadir}/#{@crawler.params[:replaydate]}/*").map{|d| d.split('/').last}.uniq.sort
-      @timekey_idx = 0
+      @timekeys = Dir.glob("#{@crawler.datadir}/#{@crawler.params[:replaydate]}/*").map{|d| d.split('/').last}.uniq.sort if @timekeys.nil?
       timekey = @timekeys[@timekey_idx]
       @crawler.logger.log "Started replaying #{timekey}"
 
