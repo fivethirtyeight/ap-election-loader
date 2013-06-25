@@ -75,8 +75,6 @@ The following options are available to `crawl.rb`. Any option listed without exa
     - examples: `20130521`, `20130523`
 - `help`: Show help dialog
 
-## Notes
-
 ## Authors
 
 - Jay Boice, jay.boice@huffingtonpost.com
