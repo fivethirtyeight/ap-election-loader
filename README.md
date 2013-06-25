@@ -1,10 +1,10 @@
 # AP Elections Data Loader
 
-Many news organizations use data from the Associated Press to power their election results reporting and real-time interactive maps. The code in this repository has been used by The Huffington Post since the 2012 Iowa caucus to build live election results maps for the [2012 Primaries](http://elections.huffingtonpost.com/2012/primaries), [2012 General Election](http://elections.huffingtonpost.com/2012/results), [2012 Wisconsin Recall](http://elections.huffingtonpost.com/2012/wisconsin-recall-results), and [2013 South Carolina District 1 Special Election](http://elections.huffingtonpost.com/2013/mark-sanford-vs-elizabeth-colbert-busch-sc1), among others.
+Many news organizations use data from The Associated Press to power their election results reporting and real-time interactive maps. The code in this repository has been used by The Huffington Post since the 2012 Iowa caucuses to build live election results maps for the [2012 Primaries](http://elections.huffingtonpost.com/2012/primaries), [2012 General Election](http://elections.huffingtonpost.com/2012/results), [2012 Wisconsin Recall](http://elections.huffingtonpost.com/2012/wisconsin-recall-results), and [2013 South Carolina District 1 Special Election](http://elections.huffingtonpost.com/2013/mark-sanford-vs-elizabeth-colbert-busch-sc1), among others.
 
-You must have a contract with the Associated Press and an account on their FTP server to use this code.
+You must have a contract with The Associated Press and an account on its FTP server to use this code.
 
-This repository has a single goal; to get results off the AP FTP server and into MySQL as fast as possible. It does not contain methods to query those results, or make assumptions about the front-end used to display the loaded data.
+This repository has a single goal: to get results off the AP's FTP server and into MySQL as fast as possible. It does not contain methods to query those results, and does not make assumptions about the front-end used to display the loaded data.
 
 ## Getting started
 
@@ -17,7 +17,7 @@ Import the current results data for Massachusetts:
 
 	ruby crawl.rb --initialize --states=MA
 
-The results data on the AP FTP server is now loaded into the `ap_races`, `ap_results` and `ap_candidates` tables in MySQL.
+The results data from the AP FTP server is now loaded into the `ap_races`, `ap_results` and `ap_candidates` tables in MySQL.
 
 On subsequent imports for the current election in Massachusetts, you do not need to include the `initialize` option:
 
@@ -27,9 +27,9 @@ The full list of options is described below.
 
 ## Replays
 
-The AP conducts tests of their live results reporting in the weeks leading up to an election. With the `record` and `replay` parameters, you can record these tests and replay them at a later time, which is useful for development. Recordings are stored on s3, making them accessible to all developers.
+The AP conducts tests of its live results reporting in the weeks leading up to an election. With the `record` and `replay` parameters, you can record these tests and replay them at a later time, which is useful for development. Recordings are stored on s3, which means you can make them accessible to other developers.
 
-To record and replay an election test, first create an `s3.yml` config file from the example file provided, and fill in your account information.
+To record and replay an election test, first create an `s3.yml` config file from the example file provided and fill in your account information.
 
 Start recording an AP test before it begins, and stop it after the test is over:
 
