@@ -1,0 +1,2 @@
+class AbortException < Exception
+end

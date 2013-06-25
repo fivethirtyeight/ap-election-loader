@@ -31,7 +31,6 @@ module AP
       @downloader = AP::Downloader.new(self)
       @importer = AP::Importer.new(self)
       @replayer = AP::Replayer.new(self)
-      @replayer.init if @params[:replay]
       @posthook = AP::Posthook.new(self) if defined?(AP::Posthook)
     end
 
@@ -57,8 +56,11 @@ module AP
             sleep 5
           end
 
-        # Reconnect to mysql if connection dropped, otherwise, log any errors and continue
+        rescue AbortException => e
+          @logger.err e.to_s
+          raise e
         rescue Exception => e
+          # Reconnect to mysql if connection dropped, otherwise, log any errors and continue
           @importer.connect if e.to_s.include?('MySQL server has gone away')
           @logger.err e.to_s
         end
