@@ -64,7 +64,7 @@ The following options are available to `crawl.rb`. Any option listed without exa
 
 - `states`: Comma-separated states to download
     - examples: `MA`, `MA,CA`, `all`
-- `skipstates`: Comma-separated states *not* to download
+- `skipstates`: Comma-separated states *not* to download -- takes precedence over `states` if both supplied
     - examples: `MA`, `MA,CA`
 - `initialize`: Create initial set of results records
 - `once`: Only download and import data once
