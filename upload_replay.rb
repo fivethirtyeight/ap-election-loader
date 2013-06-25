@@ -12,7 +12,7 @@ end
 @s3_config = YAML.load_file("#{dir}/config/s3.yml")
 AWS::S3::Base.establish_connection!(:access_key_id => @s3_config['access_key_id'], :secret_access_key => @s3_config['secret_access_key'])
 
-params[:date] = Dir.glob("#{datadir}/201*").reject{|f| f.index('.tar.gz')}.map{|f| f.split('/').last}.sort.last
+params[:date] = Dir.glob("#{datadir}/20*").reject{|f| f.index('.tar.gz')}.map{|f| f.split('/').last}.sort.last
 
 puts "Gzipping and uploading replay from #{params[:date]}"
 system "cd #{datadir} && tar -czf #{params[:date]}.tar.gz #{params[:date]}"
