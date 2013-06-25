@@ -9,22 +9,22 @@ This repository has a single purpose: to get results off the AP's FTP server and
 
 ## Getting started
 
-Create local copies of the example config files, and enter your AP credentials into `config/ap.yml` and your database credentials into `config/database.yml`:
+1. Install the necessary gems:
 
-	cp config/ap.yml.example config/ap.yml
-	cp config/database.yml.example config/database.yml
+		bundle install
 
-Import the current results data for Massachusetts:
+2. Create local copies of the example config files:
 
-	ruby crawl.rb --initialize --states=MA
+		cp config/ap.yml.example config/ap.yml
+		cp config/database.yml.example config/database.yml
 
-The results data from the AP FTP server is now loaded into the `ap_races`, `ap_results` and `ap_candidates` tables in MySQL.
+3. Enter your AP credentials into `config/ap.yml`, your database credentials into `config/database.yml`, and ensure the database referenced in database.yml exists locally.
 
-On subsequent imports for the current election in Massachusetts, you do not need to include the `initialize` option:
+4. Import the AP's current Massachusetts data:
 
-	ruby crawl.rb --states=MA
+		ruby crawl.rb --initialize --states=MA
 
-The full list of options is described below.
+The results data from the AP FTP server is now loaded into the `ap_races`, `ap_results` and `ap_candidates` tables in MySQL. On subsequent imports for the current election in Massachusetts, you do not need to include the `initialize` option. The full list of options is described below.
 
 ## Replays
 
