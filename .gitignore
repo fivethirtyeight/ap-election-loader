@@ -2,5 +2,6 @@ config/ap.yml
 config/database.yml
 config/s3.yml
 data/*
+!data/create_tables.sql
 posthook/*
 !posthook/posthook.rb.example
