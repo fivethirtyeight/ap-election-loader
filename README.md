@@ -27,19 +27,21 @@ The full list of options is described below.
 
 ## Replays
 
-The AP conducts tests of its live results reporting in the weeks leading up to an election. With the `record` and `replay` parameters, you can record these tests and replay them at a later time, which is useful for development. Recordings are stored on s3, which means you can make them accessible to other developers.
+The AP conducts tests of its live results reporting in the weeks leading up to an election. With the `record` and `replay` parameters, you can record these tests and replay them at a later time, which is useful for development. Recordings can be easily stored on s3, which means you can make them accessible to other developers.
 
-To record and replay an election test, first create an `s3.yml` config file from the example file provided and fill in your account information.
-
-Start recording an AP test before it begins, and stop it after the test is over:
+To record an AP test, start recording before the test begins, and stop it after the test is over:
 
 	ruby crawl.rb --record
 
-Upload the recording to s3:
+You can now replay that test at any time:
+
+	ruby crawl.rb --replay
+
+To store the recording on s3, create an `s3.yml` config file from the example file provided, fill in your account information, and upload it:
 
 	ruby upload_replay.rb
 
-Now you can run that replay from any development environment:
+Once uploaded, you can run that replay from any machine that has a corresponding `s3.yml`:
 
 	ruby crawl.rb --replay
 
