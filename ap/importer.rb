@@ -159,7 +159,7 @@ module AP
     end
 
     def create_tables
-      system  "mysql -h #{@db_config["host"]} -u #{@db_config["username"]} --password=#{@db_config["password"]} #{@db_config["database"]} < #{@crawler.dir}/data/create_tables.sql"
+      system  "mysql -h #{@db_config["host"] || "localhost"} -u #{@db_config["username"]} --password=#{@db_config["password"]} #{@db_config["database"]} < #{@crawler.dir}/data/create_tables.sql"
     end
 
     def connect

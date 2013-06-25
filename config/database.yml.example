@@ -2,7 +2,7 @@ development:
   database: elections
   username:
   password:
-  host:
+  host: localhost
 
 staging:
   database: elections
