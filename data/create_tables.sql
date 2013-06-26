@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `ap_results` (
   `vote_count` int(11) DEFAULT NULL,
   `winner` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `natl_order` int(11) DEFAULT NULL,
-  `huffpost_winner` int(11) DEFAULT NULL,
+  `winner_override` int(11) DEFAULT NULL,
   PRIMARY KEY (`ap_candidate_id`,`ap_race_id`),
   KEY `index_ap_results_on_ap_race_id` (`ap_race_id`),
   KEY `index_ap_results_on_ap_candidate_id` (`ap_candidate_id`)
