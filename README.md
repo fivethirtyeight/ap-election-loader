@@ -2,7 +2,7 @@
 
 Many news organizations use data from The Associated Press to power their election results reporting and real-time interactive maps. The code in this repository has been used by The Huffington Post since the 2012 Iowa caucuses to build result maps for elections including the [Republican primaries](http://elections.huffingtonpost.com/2012/primaries), the [general election](http://elections.huffingtonpost.com/2012/results) and the [Wisconsin recall](http://elections.huffingtonpost.com/2012/wisconsin-recall-results) in 2012 and the special elections in [South Carolina](http://elections.huffingtonpost.com/2013/mark-sanford-vs-elizabeth-colbert-busch-sc1) and [Massachusetts](http://elections.huffingtonpost.com/2013/massachusetts-senate-results) in 2013.
 
-You must have a contract with The Associated Press and an account on its FTP server to use this code.
+This repository is not affiliated with The Associated Press. You must have a contract with the AP and an account on its FTP server to use this code.
 
 This repository has a single purpose: to get results off the AP's FTP server and into MySQL as fast as possible. It does not contain methods to query those results, and does not make assumptions about the front-end used to display the loaded data.
 
