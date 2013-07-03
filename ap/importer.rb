@@ -24,8 +24,7 @@ module AP
       @crawler.updated_states.keys.each do |state_abbr|
         @crawler.logger.log "Importing #{state_abbr}"
         stage_state(state_abbr)
-        initialize_state(state_abbr) if @crawler.params[:initialize]
-        merge_state(state_abbr)
+        @crawler.params[:initialize] ? initialize_state(state_abbr) : merge_state(state_abbr)
       end
 
       # Wait to cache new files until they're fully merged so the crawler can be killed between downloading and importing
