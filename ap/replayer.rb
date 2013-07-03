@@ -37,7 +37,7 @@ module AP
           system("cp #{archive_file} #{local_file}")
           @crawler.new_files << [local_file, nil, nil]
         end
-        @crawler.updated_states << state_abbr unless @crawler.updated_states.include?(state_abbr)
+        @crawler.updated_states[state_abbr] ||= 1
       end
 
       @timekey_idx += 1
@@ -49,7 +49,7 @@ module AP
       @crawler.logger.log "Started recording"
       dt1 = Time.now.strftime('%Y%m%d')
       dt2 = Time.now.strftime('%H%M%S')
-      @crawler.updated_states.each do |state_abbr|
+      @crawler.updated_states.keys.each do |state_abbr|
         record_state(state_abbr, @crawler.new_files.select{|file| file.first.index("#{state_abbr}_")}, dt1, dt2)
       end
       @crawler.logger.log "Finished recording"

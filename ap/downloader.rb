@@ -63,7 +63,7 @@ module AP
 
             # Record the downloaded files for processing by the importer
             @crawler.new_files << [local_file, new_tm, new_md5]
-            @crawler.updated_states << state unless @crawler.updated_states.include?(state)
+            @crawler.updated_states[state] ||= 1
           end
 
         # Trap timeouts and a transient ftp error seen on higher traffic nights so they don't halt the crawler

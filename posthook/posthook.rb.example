@@ -6,7 +6,7 @@ module AP
     end
 
     def run
-      @crawler.logger.log "Running posthook for #{@crawler.updated_states.join(', ')}"
+      @crawler.logger.log "Running posthook for #{@crawler.updated_states.keys.join(', ')}"
     end
 
   end

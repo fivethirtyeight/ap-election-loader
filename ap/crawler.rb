@@ -40,7 +40,7 @@ module AP
 
         begin
           @new_files = []
-          @updated_states = []
+          @updated_states = {}
 
           # Everything happens here
           @params[:replay] ? @replayer.replay : @downloader.download

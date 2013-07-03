@@ -21,7 +21,7 @@ module AP
       @crawler.logger.log "Started importing"
       @crawler.logger.log "New data in #{@crawler.new_files.map{|file| file.first.split('/').last}.join(', ')}" if @crawler.new_files.size > 0
 
-      @crawler.updated_states.each do |state_abbr|
+      @crawler.updated_states.keys.each do |state_abbr|
         @crawler.logger.log "Importing #{state_abbr}"
         stage_state(state_abbr)
         initialize_state(state_abbr) if @crawler.params[:initialize]
