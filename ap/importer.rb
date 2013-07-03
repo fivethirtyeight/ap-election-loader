@@ -1,6 +1,5 @@
 require 'mysql2'
 require 'yaml'
-require 'digest/md5'
 
 module AP
   class Importer
