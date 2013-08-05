@@ -14,13 +14,7 @@ module AP
       # Set some defaults from config file
       @params[:interval] = @ap_config['interval'] if @params[:interval].nil?
       @params[:states] = @ap_config['states'] if @params[:states].nil?
-
-      # Determine states to download
-      if @params[:skipstates].size > 0
-        @params[:states] = STATES - @params[:skipstates].split(",")
-      else
-        @params[:states] = (@params[:states] == 'all' ? STATES : (STATES & @params[:states].split(",")))
-      end
+      @params[:states] = (@params[:states] == 'all' ? STATES : (STATES & @params[:states].split(",")))
 
       # Some parameters are dependent on others
       @params[:replay] = true if @params[:replaydate] && @params[:replaydate].size > 0

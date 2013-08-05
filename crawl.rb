@@ -6,7 +6,6 @@ Dir["#{dir}/posthook/*.rb"].each {|f| require f }
 
 params = Trollop::options do
   opt :states, "Comma-separated states to download", :type => :string, :default => nil
-  opt :skipstates, "Comma-separated states not to download", :default => ''
   opt :initialize, "Create initial set of results records", :default => false
   opt :once, "Only download and import data once", :default => false
   opt :clean, "Clean the data directories for specified states before downloading", :default => false

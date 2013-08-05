@@ -5,3 +5,4 @@ data/*
 !data/create_tables.sql
 posthook/*
 !posthook/posthook.rb.example
+deploy.rb
