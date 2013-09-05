@@ -10,14 +10,12 @@ module AP
       @crawler = crawler
       @done = false
       @timekey_idx = 0
-      if ['production', 'internal'].include?(@crawler.env)
-        raise AbortException, "Can't run replays in production environment"
-      end
     end
 
     def replay
-      get_replay if @timekey_idx == 0
+      raise AbortException, "Can't run replays in production environment" if ['production', 'internal'].include?(@crawler.env)
 
+      get_replay if @timekey_idx == 0
       timekey = @timekeys[@timekey_idx]
       @crawler.logger.log "Started replaying #{timekey}"
 
