@@ -41,7 +41,12 @@ module AP
           if @new_files.size > 0
             @importer.import
             @replayer.record if @params[:record]
-            @posthook.run unless @posthook.nil?
+          end
+
+          # Run posthook if results changed or param is set
+          if @posthook && (@new_files.size > 0 || @params[:posthook])
+            @posthook.run
+            @params[:posthook] = false
           end
 
           # Sleep for a bit after the first round of a replay so you can ctrl-Z and do whatever

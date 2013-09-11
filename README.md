@@ -69,6 +69,7 @@ The following options are available to `crawl.rb`. Any option listed without exa
 - `clean`: Clean the data directories for specified states before downloading
 - `interval`: Interval in seconds at which AP data will be downloaded
     - examples: `300`, `600`
+- `posthook`: Run posthook after first iteration, even if results didn't change
 - `record`: Record this run
 - `replay`: Replay the most recent run
 - `replaydate`: Specify date of replay to run
