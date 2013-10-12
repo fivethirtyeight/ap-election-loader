@@ -87,7 +87,7 @@ module AP
 
       q <<-eos
         insert into ap_results (test_flag, ap_race_id, ap_candidate_id, party, incumbent, vote_count, winner, natl_order)
-        select stage_ap_results.test_flag, stage_ap_races.ap_race_id, stage_ap_results.race_county_id), candidate_id, party, incumbent, vote_count, winner, natl_order
+        select stage_ap_results.test_flag, stage_ap_races.ap_race_id, candidate_id, party, incumbent, vote_count, winner, natl_order
         from stage_ap_results
           inner join stage_ap_races on stage_ap_results.race_county_id = stage_ap_races.race_county_id
         where stage_ap_races.#{@test_flag_where} and
@@ -102,7 +102,7 @@ module AP
 
       q <<-eos
         insert into ap_races (test_flag, id, race_number, election_date, state_postal, county_number, fips_code, county_name, office_id, race_type_id, seat_number, office_name, seat_name, race_type_party, race_type, office_description, number_of_winners, number_in_runoff, precincts_reporting, total_precincts, last_updated)
-        select test_flag, ap_race_id, race_county_id), race_number, election_date, state_postal, county_number, fips_code, county_name, office_id, race_type_id, seat_number, office_name, seat_name, race_type_party, race_type, office_description, number_of_winners, number_in_runoff, precincts_reporting, total_precincts, now()
+        select test_flag, ap_race_id, race_number, election_date, state_postal, county_number, fips_code, county_name, office_id, race_type_id, seat_number, office_name, seat_name, race_type_party, race_type, office_description, number_of_winners, number_in_runoff, precincts_reporting, total_precincts, now()
         from stage_ap_races
         where stage_ap_races.#{@test_flag_where}
       eos

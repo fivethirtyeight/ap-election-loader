@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `ap_races` (
 CREATE TABLE IF NOT EXISTS `stage_ap_races` (
   `test_flag` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `race_county_id` bigint(20) DEFAULT NULL,
-  `ap_race_id` bigint(20) DEFAULT NULL,
   `race_number` int(11) DEFAULT NULL,
   `election_date` datetime DEFAULT NULL,
   `state_postal` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -45,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `stage_ap_races` (
   `number_in_runoff` int(11) DEFAULT NULL,
   `precincts_reporting` int(11) DEFAULT NULL,
   `total_precincts` int(11) DEFAULT NULL,
+  `ap_race_id` bigint(20) DEFAULT NULL,
   KEY `index_stage_ap_races_on_ap_race_id` (`ap_race_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
