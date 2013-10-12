@@ -167,7 +167,7 @@ module AP
     end
 
     def q(sql)
-      puts sql
+      #puts sql
       @db.query(sql)
     end
 
