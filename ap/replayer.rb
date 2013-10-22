@@ -4,7 +4,7 @@ require 'yaml'
 module AP
   class Replayer
 
-    attr_accessor :done
+    attr_accessor :done, :timekeys, :timekey_idx
 
     def initialize(crawler)
       @crawler = crawler
