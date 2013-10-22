@@ -74,6 +74,9 @@ The following options are available to `crawl.rb`. Any option listed without exa
 - `replay`: Replay the most recent run
 - `replaydate`: Specify date of replay to run
     - examples: `20130521`, `20130523`
+- `replaytime`: Set the results to their state at the specified time.
+- `replaytimefrom`: Run the replay from the specified time onward.
+- `replaytimeto`: Run the replay up to the specified time.
 - `help`: Show help dialog
 
 ## Authors

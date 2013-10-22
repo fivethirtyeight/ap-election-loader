@@ -18,6 +18,8 @@ module AP
 
       # Some parameters are dependent on others
       @params[:replay] = true if @params[:replaydate] && @params[:replaydate].size > 0
+      @params[:replaytimefrom] = (@params[:replaytimefrom] || @params[:replaytime] || 0).to_i
+      @params[:replaytimeto] = (@params[:replaytimeto] || @params[:replaytime] || 245959).to_i
       @params[:initialize] = true if @params[:replay]
       @params[:once] = true if @params[:initialize] && !@params[:record] && !@params[:replay]
 
@@ -51,7 +53,7 @@ module AP
 
           # Sleep for a bit after the first round of a replay so you can ctrl-Z and do whatever
           if @params[:initialize] && @params[:replay]
-            @logger.log "Sleeping at zeroes *************"
+            @logger.log "Sleeping at initial state *************"
             sleep 5
           end
 

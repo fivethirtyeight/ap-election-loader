@@ -65,6 +65,7 @@ module AP
         raise AbortException, "A replay for #{@crawler.params[:replaydate]} was not found"
       end
       @timekeys = Dir.glob("#{@crawler.datadir}/#{@crawler.params[:replaydate]}/*").map{|d| d.split('/').last}.uniq.sort
+      @timekeys.select! { |x| x.to_i >= @crawler.params[:replaytimefrom] && x.to_i <= @crawler.params[:replaytimeto] }
     end
 
     def download_latest_from_s3
