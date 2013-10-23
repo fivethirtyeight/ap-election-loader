@@ -7,6 +7,10 @@ module AP
 
     def run
       @crawler.logger.log "Running posthook #{"for #{@crawler.updated_states.keys.join(', ')}" if @crawler.updated_states.size > 0}"
+
+      # Do stuff
+
+      @crawler.logger.log "Finished running posthook" if @crawler.updated_states.size > 0
     end
 
   end

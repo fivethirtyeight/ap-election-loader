@@ -72,6 +72,7 @@ module AP
 
         # Sleep for remaining time
         s = @params[:interval] - (Time.now.to_i - tm_start)
+        @logger.log "Sleeping for #{s} seconds" if s > 0
         sleep(s < 0 ? 0 : s)
       end
     end
