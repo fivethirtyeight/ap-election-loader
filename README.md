@@ -82,6 +82,7 @@ The following options are available to `crawl.rb`. Any option listed without exa
 ## Authors
 
 - Jay Boice, jay.boice@huffingtonpost.com
+- Aaron Bycoffe, bycoffe@huffingtonpost.com
 
 ## Copyright
 
