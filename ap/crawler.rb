@@ -22,6 +22,8 @@ module AP
       @params[:replaytimeto] = (@params[:replaytimeto] || @params[:replaytime] || 999999).to_i
       @params[:initialize] = true if @params[:replay]
       @params[:once] = true if @params[:initialize] && !@params[:record] && !@params[:replay]
+      @params[:clean] = true if @params[:record]
+      @params[:initialize] = true if @params[:record]
 
       @logger = AP::Logger.new
       @downloader = AP::Downloader.new(self)
